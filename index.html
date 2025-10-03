@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Portfolio: Adi Gunawan Tahir R.A. (V3 - Warm Theme)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Professional (Brown background, Deep Teal/Cyan primary, Gold/Yellow accent for metrics) -->
+    <!-- Application Structure Plan: A single-page dashboard portfolio. The structure flows from a high-level hero section with key metrics to an interactive tabbed section for career narrative and impact visualization (charts), and finally to an expandable card grid for detailed specializations. This architecture was chosen to immediately capture recruiter attention with quantifiable results, then allow for self-paced, interactive exploration of the candidate's achievements and skills, which is more engaging than a static document. -->
+    <!-- Visualization & Content Choices: 1. Key Metrics (12+, 30%, 95%): Goal=Inform. Method=Large typography HTML/CSS with gold accent. Interaction=None. Justification=Instant impact. 2. 95% Compliance: Goal=Compare. Method=Chart.js Donut Chart. Interaction=Hover for tooltip. Justification=Visually represents a high level of achievement. 3. 30% Risk Reduction: Goal=Compare. Method=Chart.js Bar Chart comparing before/after. Interaction=Hover for tooltip. Justification=Clearly shows the positive change and impact. 4. Specializations: Goal=Organize. Method=Expandable HTML/CSS cards. Interaction=Click to reveal details. Justification=Keeps the initial view clean while allowing for deep dives. CONFIRMING NO SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #8C6E5C; /* Warna coklat sesuai latar foto */
+            color: #F7F7F7; /* Teks body diubah ke warna terang agar kontras */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        /* Custom class for content blocks to ensure contrast */
+        .warm-content-bg {
+            background-color: #ECE6DA; /* Light Beige/Muted Gold Tint */
+        }
+        .detail-bg {
+            background-color: #F0EDEA; /* Slightly Lighter/Warmer Accent for expanded details */
+        }
+        .tab-button {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .tab-button.active {
+            border-color: #008080; /* Deep Teal */
+            color: #008080;
+            font-weight: 700;
+        }
+        .specialization-card {
+            transition: all 0.3s ease-in-out;
+            border-radius: 0.5rem;
+        }
+        /* Memastikan detail tersembunyi secara default */
+        .details-hidden {
+            max-height: 0;
+            overflow: hidden;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1), padding 0.5s ease-in-out;
+        }
+        .details-visible {
+            max-height: 500px; 
+            padding-top: 1.25rem !important; /* pt-5 */
+            padding-bottom: 1.25rem !important; /* pb-5 */
+            transition: max-height 1s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .metric-accent {
+            color: #F4D03F; /* Deeper Gold/Yellow for contrast */
+            transition: color 0.3s;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-10 max-w-7xl">
+        <header class="text-center py-10 warm-content-bg rounded-xl shadow-lg mb-8">
+            <!-- FOTO PROFIL - PERBAIKAN: object-top memastikan fokus pada wajah/bagian atas tubuh -->
+            <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-4 border-cyan-500 shadow-xl">
+                <!-- Pastikan file foto ini (PHOTO-2025-10-01-03-09-40.jpg) berada dalam folder yang sama dengan file HTML -->
+                <img src="PHOTO-2025-10-01-03-09-40.jpg" alt="Foto Profil Adi Gunawan Tahir R.A." class="object-cover w-full h-full object-top">
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">ADI GUNAWAN TAHIR R.A.</h1>
+            <p class="mt-2 text-xl md:text-2xl text-cyan-700 font-semibold tracking-wide">Internal Audit & Compliance | Automotive, Transportation & Karoseri Manufaktur</p>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-700 px-4">
+                Dengan Pengalaman Sebagai Internal Audit & Compliance selama 12+ Telah Membangun Framework Tata Kelola, Risiko, Keunggulan Operasional, Governance Risk & Integritas Mendukung Pertumbuhan Bisnis Berkelanjutan
+            </p>
+        </header>
+
+        <section id="key-metrics" class="py-6">
+             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                    <p class="text-5xl font-extrabold metric-accent">12+</p>
+                    <p class="mt-2 text-gray-700 font-medium">Tahun Pengalaman</p>
+                </div>
+                <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                    <p class="text-5xl font-extrabold metric-accent">30%</p>
+                    <p class="mt-2 text-gray-700 font-medium">Reduksi Risiko Audit</p>
+                </div>
+                <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                    <p class="text-5xl font-extrabold metric-accent">95%</p>
+                    <p class="mt-2 text-gray-700 font-medium">Kepatuhan Cabang</p>
+                </div>
+                 <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                    <p class="text-5xl font-extrabold metric-accent">30+</p>
+                    <p class="mt-2 text-gray-700 font-medium">Cabang yang Diaudit</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Margin bawah sudah mb-0 (minimal) -->
+        <main id="interactive-details" class="warm-content-bg rounded-xl shadow-2xl p-6 md:p-12 mt-8 mb-0">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Narasi Karir & Dampak Kuantitatif</h2>
+            <!-- PERBAIKAN: Menambahkan text-justify pada paragraf deskriptif. -->
+            <p class="text-justify text-gray-600 mb-10 max-w-4xl mx-auto">
+                Bagian ini menyajikan latar belakang profesional, pencapaian terukur, dan ruang lingkup kepemimpinan saya. Klik pada tab di bawah untuk melihat representasi visual dari hasil kerja utama.
+            </p>
+            <div class="border-b-2 border-gray-200 mb-10">
+                <nav class="-mb-px flex justify-center space-x-4 md:space-x-12" aria-label="Tabs">
+                    <button class="tab-button active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="summary">
+                        Ringkasan Profesional
+                    </button>
+                    <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="impact">
+                        Dampak Terkuantifikasi
+                    </button>
+                    <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="leadership">
+                        Ruang Lingkup Kepemimpinan
+                    </button>
+                </nav>
+            </div>
+            
+            <div id="tab-content" class="min-h-[450px]">
+                <div id="summary" class="tab-pane active">
+                    <!-- Teks rata kiri-kanan (justify) dan semua bold dihilangkan -->
+                    <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 leading-relaxed max-w-4xl mx-auto px-4 text-justify">
+                        <li>
+                            Leader Internal Audit & Compliance yang berorientasi pada hasil (Result-Oriented).
+                        </li>
+                        <li>
+                            Berspesialisasi dalam membangun Kerangka Kerja GRC (Governance, Risk, and Compliance) yang kuat dan terstruktur.
+                        </li>
+                        <li>
+                            Fokus utama adalah menerjemahkan temuan audit menjadi perbaikan bisnis yang terukur dan memberikan jaminan risiko tingkat eksekutif.
+                        </li>
+                        <li>
+                            Menyediakan jaminan risiko yang kritis kepada Dewan Direksi (BOD) untuk mendukung pengambilan keputusan strategis.
+                        </li>
+                    </ul>
+                </div>
+                <div id="impact" class="tab-pane hidden">
+                    <div class="grid md:grid-cols-2 gap-10 items-start">
+                        <div class="text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-cyan-700">30% Reduksi Risiko Berulang</h3>
+                            <p class="mt-2 text-gray-600">Merancang dan menerapkan Sistem Peringkat Audit sebagai KPI Perusahaan, berhasil mengurangi temuan audit berulang secara signifikan di PT Bosowa Corporindo.</p>
+                            <div class="chart-container mt-4 shadow-md rounded-lg p-2 bg-gray-50">
+                                <canvas id="riskReductionChart"></canvas>
+                            </div>
+                        </div>
+                         <div class="text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-cyan-700">95% Kepatuhan Prosedur</h3>
+                            <p class="mt-2 text-gray-600">Mencapai hingga 95% kepatuhan terhadap Standar Operasional Prosedur di 33 lokasi dealer untuk PT Bosowa Berlian Motor.</p>
+                            <div class="chart-container mt-4 shadow-md rounded-lg p-2 bg-gray-50">
+                                <canvas id="complianceChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="leadership" class="tab-pane hidden">
+                     <div class="text-center max-w-4xl mx-auto">
+                        <h3 class="text-2xl font-bold text-cyan-700">Kepemimpinan dan Laporan Eksekutif</h3>
+                        <!-- Teks rata kiri-kanan (justify) dan semua bold dihilangkan -->
+                        <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 leading-relaxed mx-auto mt-4 px-4 text-left text-justify">
+                            <li>Memimpin dan mengelola tim audit internal yang terdiri dari 4 auditor berdedikasi.</li>
+                            <li>Ruang lingkup audit mencakup portofolio yang beragam dari lebih dari 30+ cabang dan unit operasional berharga tinggi.</li>
+                            <li>Mencakup audit dealer Mitsubishi dan Mercedes Benz, pabrik manufaktur bodi, dan usaha startup dinamis.</li>
+                            <li>Hasil audit dan risiko dilaporkan langsung kepada CEO dan BOD dari Holding Group.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <section id="specializations" class="pt-0 pb-4">
+            <h2 class="text-3xl font-bold text-center text-white mb-1">Spesialisasi Inti</h2>
+            <p class="text-center text-gray-100 mb-4 max-w-4xl mx-auto">
+                Keahlian saya mencakup tiga pilar utama integritas dan efisiensi organisasi. Klik pada setiap spesialisasi untuk melihat detail kompetensi spesifik.
+            </p>
+            <div class="space-y-4 max-w-4xl mx-auto">
+                <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="grc">
+                        <h3 class="text-xl font-bold text-gray-800">Governance, Risk & Compliance (GRC)</h3>
+                        <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                    </button>
+                    <div id="grc-details" class="details-hidden px-5 pb-5 detail-bg">
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                            <li>Audit Internal (Internal Audit)</li>
+                            <li>Investigasi Fraud (Fraud Investigation)</li>
+                            <li>Kepatuhan Regulasi (Regulatory Compliance)</li>
+                            <li>Penilaian Risiko (Risk Assessment)</li>
+                            <li>Tinjauan SOP (SOP Review)</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="leadership-spec">
+                        <h3 class="text-xl font-bold text-gray-800">Kepemimpinan & Manajemen</h3>
+                        <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                    </button>
+                    <div id="leadership-spec-details" class="details-hidden px-5 pb-5 detail-bg">
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                            <li>Kepemimpinan Tim (Memimpin 4 Auditor)</li>
+                            <li>Koordinasi Lintas Fungsi (Cross-functional Coordination)</li>
+                            <li>Pelaporan Stakeholder Eksekutif</li>
+                            <li>Pelatihan & Mentoring</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                    <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="ops">
+                        <h3 class="text-xl font-bold text-gray-800">Keunggulan Operasional (Operational Excellence)</h3>
+                        <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                    </button>
+                    <div id="ops-details" class="details-hidden px-5 pb-5 detail-bg">
+                       <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                            <li>Perancangan KPI (KPI Design)</li>
+                            <li>Manajemen Inventaris (Inventory Management)</li>
+                            <li>Optimasi Proses (Process Optimization)</li>
+                            <li>Kontrol Biaya (Cost Control, khususnya produksi F&B)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 mt-12 border-t border-gray-300 warm-content-bg">
+            <p class="text-gray-600">&copy; 2025 Adi Gunawan Tahir R.A. | Interactive Professional Portfolio</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const panes = document.querySelectorAll('.tab-pane');
+            const specializationButtons = document.querySelectorAll('.specialization-card button');
+            let riskChart, complianceChart;
+
+            const chartConfig = {
+                colors: {
+                    // Updated colors for a vibrant look
+                    primary: 'rgba(0, 168, 150, 0.9)', // Vibrant Teal (Current Findings / Compliance)
+                    primaryLight: 'rgba(77, 191, 203, 0.7)', // Muted Cyan (Initial Findings)
+                    secondary: 'rgba(25, 69, 105, 1)', // Royal Blue (Non-Compliance)
+                    text: '#1f2937', // Chart label text color
+                }
+            };
+
+            function createRiskReductionChart() {
+                const ctx = document.getElementById('riskReductionChart').getContext('2d');
+                return new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        // Multi-line labels for aesthetics and readability
+                        labels: [['Temuan Awal', '(Baseline)'], ['Temuan Saat Ini', '(30% Reduksi)']],
+                        datasets: [{
+                            label: 'Temuan Audit Berulang',
+                            data: [100, 70],
+                            backgroundColor: [chartConfig.colors.primaryLight, chartConfig.colors.primary],
+                            borderColor: [chartConfig.colors.primaryLight, chartConfig.colors.primary],
+                            borderWidth: 1,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            title: {
+                                display: true,
+                                text: 'Perbandingan Temuan Audit Berulang',
+                                color: chartConfig.colors.text,
+                                font: { size: 16, weight: 'bold' }
+                            },
+                             tooltip: {
+                                callbacks: {
+                                    title: function(context) {
+                                        // Safely retrieve the multi-line label array
+                                        const dataIndex = context[0].dataIndex;
+                                        const labelArray = context[0].chart.data.labels[dataIndex];
+                                        
+                                        if (Array.isArray(labelArray)) {
+                                            return labelArray.join(' ');
+                                        }
+                                        return context[0].label; 
+                                    },
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (context.parsed.y !== null) {
+                                            label = `Nilai Relatif: ${context.parsed.y}`;
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(229, 231, 235, 0.5)' },
+                                ticks: { color: chartConfig.colors.text }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { 
+                                    color: chartConfig.colors.text,
+                                    maxRotation: 0, // Ensure labels are horizontal
+                                    minRotation: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createComplianceChart() {
+                const ctx = document.getElementById('complianceChart').getContext('2d');
+                return new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Kepatuhan (95%)', 'Tidak Patuh (5%)'],
+                        datasets: [{
+                            label: 'Tingkat Kepatuhan Cabang terhadap SOP',
+                            data: [95, 5],
+                            backgroundColor: [chartConfig.colors.primary, chartConfig.colors.secondary],
+                            borderColor: ['#ffffff'],
+                            borderWidth: 4,
+                            hoverOffset: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                             legend: {
+                                position: 'bottom',
+                                labels: { color: chartConfig.colors.text, padding: 20 }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Tingkat Kepatuhan SOP Cabang',
+                                color: chartConfig.colors.text,
+                                font: { size: 16, weight: 'bold' }
+                            }
+                        },
+                        cutout: '70%'
+                    }
+                });
+            }
+
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(item => item.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    panes.forEach(pane => {
+                        pane.classList.add('hidden');
+                        if (pane.id === tab.dataset.tab) {
+                            pane.classList.remove('hidden');
+                        }
+                    });
+
+                    // Inisialisasi Chart saat tab impact dibuka
+                    if (tab.dataset.tab === 'impact') {
+                        if (!riskChart) riskChart = createRiskReductionChart();
+                        if (!complianceChart) complianceChart = createComplianceChart();
+                        if (riskChart) riskChart.resize();
+                        if (complianceChart) complianceChart.resize();
+                    }
+                });
+            });
+
+            specializationButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const specId = button.dataset.spec;
+                    const details = document.getElementById(`${specId}-details`);
+                    const icon = button.querySelector('span');
+                    
+                    if (details.classList.contains('details-hidden')) {
+                        details.classList.remove('details-hidden');
+                        details.classList.add('details-visible');
+                        icon.style.transform = 'rotate(180deg)';
+                        button.parentElement.classList.add('shadow-xl');
+                        button.parentElement.classList.remove('shadow-lg');
+                    } else {
+                        details.classList.remove('details-visible');
+                        details.classList.add('details-hidden');
+                        icon.style.transform = 'rotate(0deg)';
+                        button.parentElement.classList.remove('shadow-xl');
+                        button.parentElement.classList.add('shadow-lg');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
