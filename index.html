@@ -1,180 +1,587 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Portfolio - Adi Gunawan Tahir</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Portfolio: Adi Gunawan Tahir R.A.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #8C6E5C;
+            color: #F7F7F7;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .warm-content-bg {
+            background-color: #ECE6DA;
+        }
+        .detail-bg {
+            background-color: #F0EDEA;
+        }
+        .tab-button {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .tab-button.active {
+            border-color: #008080;
+            color: #008080;
+            font-weight: 700;
+        }
+        .specialization-card {
+            transition: all 0.3s ease-in-out;
+            border-radius: 0.5rem;
+        }
+        .details-hidden {
+            max-height: 0;
+            overflow: hidden;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1), padding 0.5s ease-in-out;
+        }
+        .details-visible {
+            max-height: 500px; 
+            padding-top: 1.25rem !important;
+            padding-bottom: 1.25rem !important;
+            transition: max-height 1s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .metric-accent {
+            color: #F4D03F;
+            transition: color 0.3s;
+        }
+        .lang-switch {
+            margin-bottom: 1rem;
+        }
+        .lang-switch button {
+            font-weight: 600;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1.25rem;
+            margin: 0 0.5rem;
+            border: 2px solid #008080;
+            background: #ECE6DA;
+            color: #008080;
+            transition: background 0.3s, color 0.3s;
+        }
+        .lang-switch button.active, .lang-switch button:hover {
+            background: #008080;
+            color: #fff;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-
-  <!-- Header / Hero -->
-  <header class="text-center py-12 bg-white shadow">
-    <img src="profile-photo.jpg" alt="Foto Profil" class="mx-auto w-40 h-40 rounded-full shadow-lg mb-4">
-    <h1 class="text-3xl font-bold mb-2" id="title">Halo, saya Adi Gunawan Tahir</h1>
-    <p class="text-gray-600" id="subtitle">Selamat datang di portofolio interaktif saya</p>
-    <!-- Switch Bahasa -->
-    <div class="mt-4 flex justify-center space-x-4">
-      <button onclick="setLang('id')" class="text-3xl">🇮🇩</button>
-      <button onclick="setLang('en')" class="text-3xl">🇬🇧</button>
+<body class="antialiased">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-10 max-w-7xl">
+        <!-- Language Switcher -->
+        <div class="lang-switch flex justify-end">
+            <button id="id-btn" class="active" onclick="switchLang('id')">Indonesia</button>
+            <button id="en-btn" onclick="switchLang('en')">English</button>
+        </div>
+        <!-- Bahasa Indonesia -->
+        <div id="page-id">
+            <header class="text-center py-10 warm-content-bg rounded-xl shadow-lg mb-8">
+                <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-4 border-cyan-500 shadow-xl">
+                    <img src="profile-photo.jpg" alt="Foto Profil Adi Gunawan Tahir R.A." class="object-cover w-full h-full object-top">
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">ADI GUNAWAN TAHIR R.A.</h1>
+                <p class="mt-2 text-xl md:text-2xl text-cyan-700 font-semibold tracking-wide">Internal Audit & Compliance | Automotive, Transportation & Karoseri Manufaktur</p>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-700 px-4">
+                    Dengan Pengalaman Sebagai Internal Audit & Compliance selama 12+ Telah Membangun Framework Tata Kelola, Risiko, Keunggulan Operasional, Governance Risk & Integritas Mendukung Pertumbuhan Bisnis Berkelanjutan
+                </p>
+            </header>
+            <section id="key-metrics" class="py-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                        <p class="text-5xl font-extrabold metric-accent">12+</p>
+                        <p class="mt-2 text-gray-700 font-medium">Tahun Pengalaman</p>
+                    </div>
+                    <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                        <p class="text-5xl font-extrabold metric-accent">30%</p>
+                        <p class="mt-2 text-gray-700 font-medium">Reduksi Risiko Audit</p>
+                    </div>
+                    <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                        <p class="text-5xl font-extrabold metric-accent">95%</p>
+                        <p class="mt-2 text-gray-700 font-medium">Kepatuhan Cabang</p>
+                    </div>
+                    <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                        <p class="text-5xl font-extrabold metric-accent">30+</p>
+                        <p class="mt-2 text-gray-700 font-medium">Cabang yang Diaudit</p>
+                    </div>
+                </div>
+            </section>
+            <main id="interactive-details" class="warm-content-bg rounded-xl shadow-2xl p-6 md:p-12 mt-8 mb-0">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Narasi Karir & Dampak Kuantitatif</h2>
+                <p class="text-justify text-gray-600 mb-10 max-w-4xl mx-auto">
+                    Bagian ini menyajikan latar belakang profesional, pencapaian terukur, dan ruang lingkup kepemimpinan saya. Klik pada tab di bawah untuk melihat representasi visual dari hasil kerja utama.
+                </p>
+                <div class="border-b-2 border-gray-200 mb-10">
+                    <nav class="-mb-px flex justify-center space-x-4 md:space-x-12" aria-label="Tabs">
+                        <button class="tab-button active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="summary-id">
+                            Ringkasan Profesional
+                        </button>
+                        <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="impact-id">
+                            Dampak Terkuantifikasi
+                        </button>
+                        <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="leadership-id">
+                            Ruang Lingkup Kepemimpinan
+                        </button>
+                    </nav>
+                </div>
+                <div id="tab-content-id" class="min-h-[450px]">
+                    <div id="summary-id" class="tab-pane active">
+                        <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 leading-relaxed max-w-4xl mx-auto px-4 text-justify">
+                            <li>Leader Internal Audit & Compliance yang berorientasi pada hasil (Result-Oriented).</li>
+                            <li>Berspesialisasi dalam membangun Kerangka Kerja GRC (Governance, Risk, and Compliance) yang kuat dan terstruktur.</li>
+                            <li>Fokus utama adalah menerjemahkan temuan audit menjadi perbaikan bisnis yang terukur dan memberikan jaminan risiko tingkat eksekutif.</li>
+                            <li>Menyediakan jaminan risiko yang kritis kepada Dewan Direksi (BOD) untuk mendukung pengambilan keputusan strategis.</li>
+                        </ul>
+                    </div>
+                    <div id="impact-id" class="tab-pane hidden">
+                        <div class="grid md:grid-cols-2 gap-10 items-start">
+                            <div class="text-center md:text-left">
+                                <h3 class="text-2xl font-bold text-cyan-700">30% Reduksi Risiko Berulang</h3>
+                                <p class="mt-2 text-gray-600">Merancang dan menerapkan Sistem Peringkat Audit sebagai KPI Perusahaan, berhasil mengurangi temuan audit berulang secara signifikan di PT Bosowa Corporindo.</p>
+                                <div class="chart-container mt-4 shadow-md rounded-lg p-2 bg-gray-50">
+                                    <canvas id="riskReductionChart-id"></canvas>
+                                </div>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h3 class="text-2xl font-bold text-cyan-700">95% Kepatuhan Prosedur</h3>
+                                <p class="mt-2 text-gray-600">Mencapai hingga 95% kepatuhan terhadap Standar Operasional Prosedur di 33 lokasi dealer untuk PT Bosowa Berlian Motor.</p>
+                                <div class="chart-container mt-4 shadow-md rounded-lg p-2 bg-gray-50">
+                                    <canvas id="complianceChart-id"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="leadership-id" class="tab-pane hidden">
+                        <div class="text-center max-w-4xl mx-auto">
+                            <h3 class="text-2xl font-bold text-cyan-700">Kepemimpinan dan Laporan Eksekutif</h3>
+                            <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 leading-relaxed mx-auto mt-4 px-4 text-left text-justify">
+                                <li>Memimpin dan mengelola tim audit internal yang terdiri dari 4 auditor berdedikasi.</li>
+                                <li>Ruang lingkup audit mencakup portofolio yang beragam dari lebih dari 30+ cabang dan unit operasional berharga tinggi.</li>
+                                <li>Mencakup audit dealer Mitsubishi dan Mercedes Benz, pabrik manufaktur bodi, dan usaha startup dinamis.</li>
+                                <li>Hasil audit dan risiko dilaporkan langsung kepada CEO dan BOD dari Holding Group.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <section id="specializations" class="pt-0 pb-4">
+                <h2 class="text-3xl font-bold text-center text-white mb-1">Spesialisasi Inti</h2>
+                <p class="text-center text-gray-100 mb-4 max-w-4xl mx-auto">
+                    Keahlian saya mencakup tiga pilar utama integritas dan efisiensi organisasi. Klik pada setiap spesialisasi untuk melihat detail kompetensi spesifik.
+                </p>
+                <div class="space-y-4 max-w-4xl mx-auto">
+                    <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                        <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="grc-id">
+                            <h3 class="text-xl font-bold text-gray-800">Governance, Risk & Compliance (GRC)</h3>
+                            <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                        </button>
+                        <div id="grc-id-details" class="details-hidden px-5 pb-5 detail-bg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                                <li>Audit Internal (Internal Audit)</li>
+                                <li>Investigasi Fraud (Fraud Investigation)</li>
+                                <li>Kepatuhan Regulasi (Regulatory Compliance)</li>
+                                <li>Penilaian Risiko (Risk Assessment)</li>
+                                <li>Tinjauan SOP (SOP Review)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                        <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="leadership-spec-id">
+                            <h3 class="text-xl font-bold text-gray-800">Kepemimpinan & Manajemen</h3>
+                            <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                        </button>
+                        <div id="leadership-spec-id-details" class="details-hidden px-5 pb-5 detail-bg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                                <li>Kepemimpinan Tim (Memimpin 4 Auditor)</li>
+                                <li>Koordinasi Lintas Fungsi (Cross-functional Coordination)</li>
+                                <li>Pelaporan Stakeholder Eksekutif</li>
+                                <li>Pelatihan & Mentoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                        <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="ops-id">
+                            <h3 class="text-xl font-bold text-gray-800">Keunggulan Operasional (Operational Excellence)</h3>
+                            <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                        </button>
+                        <div id="ops-id-details" class="details-hidden px-5 pb-5 detail-bg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                                <li>Perancangan KPI (KPI Design)</li>
+                                <li>Manajemen Inventaris (Inventory Management)</li>
+                                <li>Optimasi Proses (Process Optimization)</li>
+                                <li>Kontrol Biaya (Cost Control, khususnya produksi F&B)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer class="text-center py-8 mt-12 border-t border-gray-300 warm-content-bg">
+                <p class="text-gray-600">&copy; 2025 Adi Gunawan Tahir R.A. | Interactive Professional Portfolio</p>
+            </footer>
+        </div>
+        <!-- English -->
+        <div id="page-en" style="display:none;">
+            <header class="text-center py-10 warm-content-bg rounded-xl shadow-lg mb-8">
+                <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden border-4 border-cyan-500 shadow-xl">
+                    <img src="profile-photo.jpg" alt="Adi Gunawan Tahir R.A. Profile Photo" class="object-cover w-full h-full object-top">
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">ADI GUNAWAN TAHIR R.A.</h1>
+                <p class="mt-2 text-xl md:text-2xl text-cyan-700 font-semibold tracking-wide">Internal Audit & Compliance | Automotive, Transportation & Coachbuilder Manufacturing</p>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-700 px-4">
+                    With 12+ Years of Experience in Internal Audit & Compliance, I have built a framework for Governance, Risk, Operational Excellence, and Integrity to support Sustainable Business Growth.
+                </p>
+            </header>
+            <section id="key-metrics" class="py-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                        <p class="text-5xl font-extrabold metric-accent">12+</p>
+                        <p class="mt-2 text-gray-700 font-medium">Years of Experience</p>
+                    </div>
+                    <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                        <p class="text-5xl font-extrabold metric-accent">30%</p>
+                        <p class="mt-2 text-gray-700 font-medium">Audit Risk Reduction</p>
+                    </div>
+                    <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                        <p class="text-5xl font-extrabold metric-accent">95%</p>
+                        <p class="mt-2 text-gray-700 font-medium">Branch Compliance</p>
+                    </div>
+                    <div class="warm-content-bg p-6 rounded-xl shadow-lg border-b-4 border-cyan-600 hover:shadow-xl transition duration-300">
+                        <p class="text-5xl font-extrabold metric-accent">30+</p>
+                        <p class="mt-2 text-gray-700 font-medium">Audited Branches</p>
+                    </div>
+                </div>
+            </section>
+            <main id="interactive-details" class="warm-content-bg rounded-xl shadow-2xl p-6 md:p-12 mt-8 mb-0">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Career Narrative & Quantifiable Impact</h2>
+                <p class="text-justify text-gray-600 mb-10 max-w-4xl mx-auto">
+                    This section presents my professional background, measurable achievements, and leadership scope. Click on the tabs below to view a visual representation of key outcomes.
+                </p>
+                <div class="border-b-2 border-gray-200 mb-10">
+                    <nav class="-mb-px flex justify-center space-x-4 md:space-x-12" aria-label="Tabs">
+                        <button class="tab-button active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="summary-en">
+                            Professional Summary
+                        </button>
+                        <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="impact-en">
+                            Quantified Impact
+                        </button>
+                        <button class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-cyan-700 hover:border-cyan-300" data-tab="leadership-en">
+                            Leadership Scope
+                        </button>
+                    </nav>
+                </div>
+                <div id="tab-content-en" class="min-h-[450px]">
+                    <div id="summary-en" class="tab-pane active">
+                        <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 leading-relaxed max-w-4xl mx-auto px-4 text-justify">
+                            <li>A results-oriented Leader in Internal Audit & Compliance (Result-Oriented).</li>
+                            <li>Specialized in building strong and structured GRC (Governance, Risk, and Compliance) Frameworks.</li>
+                            <li>Core focus is translating audit findings into measurable business improvements and providing critical executive-level risk assurance.</li>
+                            <li>Providing critical risk assurance to the Board of Directors (BOD) to support strategic decision-making.</li>
+                        </ul>
+                    </div>
+                    <div id="impact-en" class="tab-pane hidden">
+                        <div class="grid md:grid-cols-2 gap-10 items-start">
+                            <div class="text-center md:text-left">
+                                <h3 class="text-2xl font-bold text-cyan-700">30% Recurring Risk Reduction</h3>
+                                <p class="mt-2 text-gray-600">Designed and implemented an Audit Rating System as a Company KPI, successfully reducing recurring audit findings significantly at PT Bosowa Corporindo.</p>
+                                <div class="chart-container mt-4 shadow-md rounded-lg p-2 bg-gray-50">
+                                    <canvas id="riskReductionChart-en"></canvas>
+                                </div>
+                            </div>
+                            <div class="text-center md:text-left">
+                                <h3 class="text-2xl font-bold text-cyan-700">95% Procedural Compliance</h3>
+                                <p class="mt-2 text-gray-600">Achieved up to 95% compliance with Standard Operating Procedures across 33 dealer locations for PT Bosowa Berlian Motor.</p>
+                                <div class="chart-container mt-4 shadow-md rounded-lg p-2 bg-gray-50">
+                                    <canvas id="complianceChart-en"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="leadership-en" class="tab-pane hidden">
+                        <div class="text-center max-w-4xl mx-auto">
+                            <h3 class="text-2xl font-bold text-cyan-700">Leadership and Executive Reporting</h3>
+                            <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 leading-relaxed mx-auto mt-4 px-4 text-left text-justify">
+                                <li>Leading and managing a dedicated internal audit team of 4 auditors.</li>
+                                <li>Audit scope covers a diverse portfolio of over 30+ high-value branches and operational units.</li>
+                                <li>Including audits of Mitsubishi and Mercedes Benz dealers, body manufacturing plants, and dynamic startup ventures.</li>
+                                <li>Audit findings and risks are reported directly to the CEO and BOD of the Holding Group.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <section id="specializations" class="pt-0 pb-4">
+                <h2 class="text-3xl font-bold text-center text-white mb-1">Core Specializations</h2>
+                <p class="text-center text-gray-100 mb-4 max-w-4xl mx-auto">
+                    My expertise spans three main pillars of organizational integrity and efficiency. Click on each specialization to view specific competency details.
+                </p>
+                <div class="space-y-4 max-w-4xl mx-auto">
+                    <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                        <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="grc-en">
+                            <h3 class="text-xl font-bold text-gray-800">Governance, Risk & Compliance (GRC)</h3>
+                            <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                        </button>
+                        <div id="grc-en-details" class="details-hidden px-5 pb-5 detail-bg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                                <li>Internal Audit</li>
+                                <li>Fraud Investigation</li>
+                                <li>Regulatory Compliance</li>
+                                <li>Risk Assessment</li>
+                                <li>SOP Review</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                        <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="leadership-spec-en">
+                            <h3 class="text-xl font-bold text-gray-800">Leadership & Management</h3>
+                            <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                        </button>
+                        <div id="leadership-spec-en-details" class="details-hidden px-5 pb-5 detail-bg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                                <li>Team Leadership (Led 4 Auditors)</li>
+                                <li>Cross-functional Coordination</li>
+                                <li>Executive Stakeholder Reporting</li>
+                                <li>Training & Mentoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="specialization-card warm-content-bg rounded-xl shadow-lg border-l-4 border-cyan-500 overflow-hidden">
+                        <button class="w-full text-left p-5 flex justify-between items-center focus:outline-none" data-spec="ops-en">
+                            <h3 class="text-xl font-bold text-gray-800">Operational Excellence</h3>
+                            <span class="text-cyan-600 transform transition-transform duration-300 text-xl font-extrabold">&#9662;</span>
+                        </button>
+                        <div id="ops-en-details" class="details-hidden px-5 pb-5 detail-bg">
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
+                                <li>KPI Design</li>
+                                <li>Inventory Management</li>
+                                <li>Process Optimization</li>
+                                <li>Cost Control (specifically F&B production)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer class="text-center py-8 mt-12 border-t border-gray-300 warm-content-bg">
+                <p class="text-gray-600">&copy; 2025 Adi Gunawan Tahir R.A. | Interactive Professional Portfolio</p>
+            </footer>
+        </div>
     </div>
-  </header>
+    <script>
+        // Language switching
+        function switchLang(lang) {
+            if (lang === 'id') {
+                document.getElementById('page-id').style.display = '';
+                document.getElementById('page-en').style.display = 'none';
+                document.getElementById('id-btn').classList.add('active');
+                document.getElementById('en-btn').classList.remove('active');
+            } else {
+                document.getElementById('page-id').style.display = 'none';
+                document.getElementById('page-en').style.display = '';
+                document.getElementById('en-btn').classList.add('active');
+                document.getElementById('id-btn').classList.remove('active');
+            }
+        }
 
-  <!-- Three Pillars -->
-  <section class="py-16">
-    <h2 id="pillarTitle" class="text-2xl font-bold text-center mb-10">Tiga Pilar Saya</h2>
-    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-      <div onclick="showDetail(1)" id="pillar1"
-        class="bg-blue-500 text-white py-12 rounded-xl shadow-lg cursor-pointer hover:bg-blue-700 transition">
-        Integritas
-      </div>
-      <div onclick="showDetail(2)" id="pillar2"
-        class="bg-blue-500 text-white py-12 rounded-xl shadow-lg cursor-pointer hover:bg-blue-700 transition">
-        Profesionalisme
-      </div>
-      <div onclick="showDetail(3)" id="pillar3"
-        class="bg-blue-500 text-white py-12 rounded-xl shadow-lg cursor-pointer hover:bg-blue-700 transition">
-        Inovasi
-      </div>
-    </div>
-  </section>
+        // Tabs and expandable specialization logic for both languages
+        function setupTabs(lang) {
+            const tabBtns = document.querySelectorAll(`#page-${lang} .tab-button`);
+            const panes = document.querySelectorAll(`#page-${lang} .tab-pane`);
+            tabBtns.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabBtns.forEach(item => item.classList.remove('active'));
+                    tab.classList.add('active');
+                    panes.forEach(pane => {
+                        pane.classList.add('hidden');
+                        if (pane.id === tab.dataset.tab) {
+                            pane.classList.remove('hidden');
+                        }
+                    });
+                    // Initialize Charts when impact tab is opened
+                    if (tab.dataset.tab === `impact-${lang}`) {
+                        if (!window[`riskChart${lang}`]) window[`riskChart${lang}`] = createRiskReductionChart(lang);
+                        if (!window[`complianceChart${lang}`]) window[`complianceChart${lang}`] = createComplianceChart(lang);
+                        if (window[`riskChart${lang}`]) window[`riskChart${lang}`].resize();
+                        if (window[`complianceChart${lang}`]) window[`complianceChart${lang}`].resize();
+                    }
+                });
+            });
 
-  <!-- Detail Section -->
-  <section class="py-16 bg-white shadow-inner">
-    <div class="max-w-3xl mx-auto text-center">
-      <p id="detailText" class="text-lg text-gray-700">Klik salah satu pilar untuk melihat detail.</p>
-    </div>
-  </section>
+            // Specialization Cards (expansion)
+            const specBtns = document.querySelectorAll(`#page-${lang} .specialization-card button`);
+            specBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    const specId = button.dataset.spec;
+                    const details = document.getElementById(`${specId}-details`);
+                    const icon = button.querySelector('span');
+                    if (details.classList.contains('details-hidden')) {
+                        details.classList.remove('details-hidden');
+                        details.classList.add('details-visible');
+                        icon.style.transform = 'rotate(180deg)';
+                        button.parentElement.classList.add('shadow-xl');
+                        button.parentElement.classList.remove('shadow-lg');
+                    } else {
+                        details.classList.remove('details-visible');
+                        details.classList.add('details-hidden');
+                        icon.style.transform = 'rotate(0deg)';
+                        button.parentElement.classList.remove('shadow-xl');
+                        button.parentElement.classList.add('shadow-lg');
+                    }
+                });
+            });
+        }
 
-  <!-- Chart 1: Radar -->
-  <section class="py-16">
-    <h2 class="text-2xl font-bold text-center mb-10">Radar Chart</h2>
-    <div class="max-w-3xl mx-auto">
-      <canvas id="radarChart"></canvas>
-    </div>
-  </section>
+        // Chart.js Chart creation for both languages
+        function createRiskReductionChart(lang) {
+            const chartConfig = {
+                colors: {
+                    primary: 'rgba(0, 168, 150, 0.9)',
+                    primaryLight: 'rgba(77, 191, 203, 0.7)',
+                    secondary: 'rgba(25, 69, 105, 1)',
+                    text: '#1f2937',
+                }
+            };
+            let ctx = document.getElementById(`riskReductionChart-${lang}`).getContext('2d');
+            let labels = lang === 'id'
+                ? [['Temuan Awal', '(Baseline)'], ['Temuan Saat Ini', '(30% Reduksi)']]
+                : [['Initial Findings', '(Baseline)'], ['Current Findings', '(30% Reduction)']];
+            let title = lang === 'id'
+                ? 'Perbandingan Temuan Audit Berulang'
+                : 'Comparison of Recurring Audit Findings';
+            let label = lang === 'id'
+                ? 'Temuan Audit Berulang'
+                : 'Recurring Audit Findings';
+            let tooltipLabel = lang === 'id'
+                ? v => `Nilai Relatif: ${v}`
+                : v => `Relative Value: ${v}`;
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: [100, 70],
+                        backgroundColor: [chartConfig.colors.primaryLight, chartConfig.colors.primary],
+                        borderColor: [chartConfig.colors.primaryLight, chartConfig.colors.primary],
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: title,
+                            color: chartConfig.colors.text,
+                            font: { size: 16, weight: 'bold' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    const dataIndex = context[0].dataIndex;
+                                    const labelArray = context[0].chart.data.labels[dataIndex];
+                                    if (Array.isArray(labelArray)) {
+                                        return labelArray.join(' ');
+                                    }
+                                    return context[0].label;
+                                },
+                                label: function(context) {
+                                    if (context.parsed.y !== null) {
+                                        return tooltipLabel(context.parsed.y);
+                                    }
+                                    return '';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(229, 231, 235, 0.5)' },
+                            ticks: { color: chartConfig.colors.text }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: chartConfig.colors.text, maxRotation: 0, minRotation: 0 }
+                        }
+                    }
+                }
+            });
+        }
 
-  <!-- Chart 2: Bar -->
-  <section class="py-16 bg-white">
-    <h2 class="text-2xl font-bold text-center mb-10">Bar Chart</h2>
-    <div class="max-w-3xl mx-auto">
-      <canvas id="barChart"></canvas>
-    </div>
-  </section>
+        function createComplianceChart(lang) {
+            const chartConfig = {
+                colors: {
+                    primary: 'rgba(0, 168, 150, 0.9)',
+                    secondary: 'rgba(25, 69, 105, 1)',
+                    text: '#1f2937',
+                }
+            };
+            let ctx = document.getElementById(`complianceChart-${lang}`).getContext('2d');
+            let labels = lang === 'id'
+                ? ['Kepatuhan (95%)', 'Tidak Patuh (5%)']
+                : ['Compliance (95%)', 'Non-Compliance (5%)'];
+            let label = lang === 'id'
+                ? 'Tingkat Kepatuhan Cabang terhadap SOP'
+                : 'Branch SOP Compliance Level';
+            let title = lang === 'id'
+                ? 'Tingkat Kepatuhan SOP Cabang'
+                : 'Branch SOP Compliance Level';
+            return new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: [95, 5],
+                        backgroundColor: [chartConfig.colors.primary, chartConfig.colors.secondary],
+                        borderColor: ['#ffffff'],
+                        borderWidth: 4,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: chartConfig.colors.text, padding: 20 }
+                        },
+                        title: {
+                            display: true,
+                            text: title,
+                            color: chartConfig.colors.text,
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
 
-  <!-- Chart 3: Line -->
-  <section class="py-16">
-    <h2 class="text-2xl font-bold text-center mb-10">Line Chart</h2>
-    <div class="max-w-3xl mx-auto">
-      <canvas id="lineChart"></canvas>
-    </div>
-  </section>
-
-  <script>
-    // Bahasa
-    const texts = {
-      id: {
-        title: "Halo, saya Adi Gunawan Tahir",
-        subtitle: "Selamat datang di portofolio interaktif saya",
-        pillarTitle: "Tiga Pilar Saya",
-        pillars: ["Integritas", "Profesionalisme", "Inovasi"],
-        details: [
-          "Integritas adalah dasar dari semua pekerjaan saya.",
-          "Profesionalisme menjaga kualitas kerja dan hasil.",
-          "Inovasi mendukung pertumbuhan dan keberlanjutan."
-        ]
-      },
-      en: {
-        title: "Hello, I'm Adi Gunawan Tahir",
-        subtitle: "Welcome to my interactive portfolio",
-        pillarTitle: "My Three Pillars",
-        pillars: ["Integrity", "Professionalism", "Innovation"],
-        details: [
-          "Integrity is the foundation of all my work.",
-          "Professionalism ensures quality and results.",
-          "Innovation drives growth and sustainability."
-        ]
-      }
-    };
-
-    let currentLang = "id";
-
-    function setLang(lang) {
-      currentLang = lang;
-      document.getElementById("title").textContent = texts[lang].title;
-      document.getElementById("subtitle").textContent = texts[lang].subtitle;
-      document.getElementById("pillarTitle").textContent = texts[lang].pillarTitle;
-      document.getElementById("pillar1").textContent = texts[lang].pillars[0];
-      document.getElementById("pillar2").textContent = texts[lang].pillars[1];
-      document.getElementById("pillar3").textContent = texts[lang].pillars[2];
-      document.getElementById("detailText").textContent =
-        (lang === "id") ? "Klik salah satu pilar untuk melihat detail." : "Click a pillar to see details.";
-    }
-
-    // Data untuk grafik
-    const pillarScores = [90, 85, 95];
-
-    // Radar Chart
-    const radarChart = new Chart(document.getElementById('radarChart'), {
-      type: 'radar',
-      data: {
-        labels: ['Integritas', 'Profesionalisme', 'Inovasi'],
-        datasets: [{
-          label: 'Kekuatan Pilar',
-          data: pillarScores,
-          fill: true,
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgb(54, 162, 235)',
-          pointBackgroundColor: 'rgb(54, 162, 235)'
-        }]
-      },
-      options: { scales: { r: { beginAtZero: true, max: 100 } } }
-    });
-
-    // Bar Chart
-    const barChart = new Chart(document.getElementById('barChart'), {
-      type: 'bar',
-      data: {
-        labels: ['Integritas', 'Profesionalisme', 'Inovasi'],
-        datasets: [{
-          label: 'Skor',
-          data: pillarScores,
-          backgroundColor: ['#3b82f6','#10b981','#f59e0b']
-        }]
-      },
-      options: { responsive: true }
-    });
-
-    // Line Chart
-    const lineChart = new Chart(document.getElementById('lineChart'), {
-      type: 'line',
-      data: {
-        labels: ['2019','2020','2021','2022','2023'],
-        datasets: [{
-          label: 'Perkembangan Karir',
-          data: [50, 65, 75, 85, 95],
-          fill: false,
-          borderColor: '#3b82f6',
-          tension: 0.1
-        }]
-      },
-      options: { responsive: true }
-    });
-
-    // Klik pilar update detail + highlight grafik
-    function showDetail(n) {
-      document.getElementById("detailText").textContent = texts[currentLang].details[n-1];
-
-      // highlight data di radar & bar chart
-      radarChart.data.datasets[0].backgroundColor = ['rgba(54,162,235,0.2)','rgba(54,162,235,0.2)','rgba(54,162,235,0.2)'];
-      radarChart.data.datasets[0].backgroundColor[n-1] = 'rgba(255,99,132,0.4)';
-      radarChart.update();
-
-      barChart.data.datasets[0].backgroundColor = ['#3b82f6','#10b981','#f59e0b'];
-      barChart.data.datasets[0].backgroundColor[n-1] = '#ef4444'; // merah untuk highlight
-      barChart.update();
-    }
-  </script>
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            setupTabs('id');
+            setupTabs('en');
+        });
+    </script>
 </body>
 </html>
