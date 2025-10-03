@@ -47,15 +47,32 @@
     </div>
   </section>
 
-  <!-- Chart Example (optional) -->
+  <!-- Chart 1: Radar -->
   <section class="py-16">
+    <h2 class="text-2xl font-bold text-center mb-10">Radar Chart</h2>
     <div class="max-w-3xl mx-auto">
-      <canvas id="myChart"></canvas>
+      <canvas id="radarChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Chart 2: Bar -->
+  <section class="py-16 bg-white">
+    <h2 class="text-2xl font-bold text-center mb-10">Bar Chart</h2>
+    <div class="max-w-3xl mx-auto">
+      <canvas id="barChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Chart 3: Line -->
+  <section class="py-16">
+    <h2 class="text-2xl font-bold text-center mb-10">Line Chart</h2>
+    <div class="max-w-3xl mx-auto">
+      <canvas id="lineChart"></canvas>
     </div>
   </section>
 
   <script>
-    // Data bahasa
+    // Bahasa
     const texts = {
       id: {
         title: "Halo, saya Adi Gunawan Tahir",
@@ -91,26 +108,73 @@
       document.getElementById("pillar1").textContent = texts[lang].pillars[0];
       document.getElementById("pillar2").textContent = texts[lang].pillars[1];
       document.getElementById("pillar3").textContent = texts[lang].pillars[2];
-      document.getElementById("detailText").textContent = 
+      document.getElementById("detailText").textContent =
         (lang === "id") ? "Klik salah satu pilar untuk melihat detail." : "Click a pillar to see details.";
     }
 
-    function showDetail(n) {
-      document.getElementById("detailText").textContent = texts[currentLang].details[n-1];
-    }
+    // Data untuk grafik
+    const pillarScores = [90, 85, 95];
 
-    // Contoh Chart
-    const ctx = document.getElementById('myChart');
-    new Chart(ctx, {
+    // Radar Chart
+    const radarChart = new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: ['Integritas', 'Profesionalisme', 'Inovasi'],
+        datasets: [{
+          label: 'Kekuatan Pilar',
+          data: pillarScores,
+          fill: true,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgb(54, 162, 235)',
+          pointBackgroundColor: 'rgb(54, 162, 235)'
+        }]
+      },
+      options: { scales: { r: { beginAtZero: true, max: 100 } } }
+    });
+
+    // Bar Chart
+    const barChart = new Chart(document.getElementById('barChart'), {
       type: 'bar',
       data: {
-        labels: ['Integrity', 'Professionalism', 'Innovation'],
+        labels: ['Integritas', 'Profesionalisme', 'Inovasi'],
         datasets: [{
-          label: 'Importance',
-          data: [90, 85, 95],
+          label: 'Skor',
+          data: pillarScores,
+          backgroundColor: ['#3b82f6','#10b981','#f59e0b']
         }]
-      }
+      },
+      options: { responsive: true }
     });
+
+    // Line Chart
+    const lineChart = new Chart(document.getElementById('lineChart'), {
+      type: 'line',
+      data: {
+        labels: ['2019','2020','2021','2022','2023'],
+        datasets: [{
+          label: 'Perkembangan Karir',
+          data: [50, 65, 75, 85, 95],
+          fill: false,
+          borderColor: '#3b82f6',
+          tension: 0.1
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    // Klik pilar update detail + highlight grafik
+    function showDetail(n) {
+      document.getElementById("detailText").textContent = texts[currentLang].details[n-1];
+
+      // highlight data di radar & bar chart
+      radarChart.data.datasets[0].backgroundColor = ['rgba(54,162,235,0.2)','rgba(54,162,235,0.2)','rgba(54,162,235,0.2)'];
+      radarChart.data.datasets[0].backgroundColor[n-1] = 'rgba(255,99,132,0.4)';
+      radarChart.update();
+
+      barChart.data.datasets[0].backgroundColor = ['#3b82f6','#10b981','#f59e0b'];
+      barChart.data.datasets[0].backgroundColor[n-1] = '#ef4444'; // merah untuk highlight
+      barChart.update();
+    }
   </script>
 </body>
 </html>
